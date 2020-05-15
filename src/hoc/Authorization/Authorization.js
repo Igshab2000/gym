@@ -4,9 +4,6 @@ import MainButton from '../../component/UI/main-button/main-button';
 import './Authorization.scss';
 
 class Authorization extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

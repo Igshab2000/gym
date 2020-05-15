@@ -8,7 +8,7 @@ import { formValidator } from '../../utils/validator';
 import { connect } from 'react-redux';
 import save from '../../store/action/save/save';
 import { withFirestore } from 'react-firestore';
-import './signIn.scss';
+import './SignIn.scss';
 import requestWrapper from '../../utils/const/requestWrapper';
 import ErrorMessage from '../../component/ErrorMessage/ErrorMessage';
 import isEmpty from '../../utils/const/isEmpty';
@@ -62,11 +62,13 @@ class SignIn extends Component {
             ) {
                 return user;
             }
+
+            return {}
         });
 
         if(isEmpty(user)) {
             this.props.userSave(user);
-            history.push("/");
+            history.goBack();
         } else {
             this.setState({
                 errorMessage: 'Неверный логин или пароль.'
@@ -87,7 +89,7 @@ class SignIn extends Component {
         return (
             <Authorization>
                 <div className='sign-in-container'>
-                    <div className='content'>
+                    <div className='sign-in-container__content'>
                         <h2>Вход в личный кабинет</h2>
                         <form 
                             onSubmit={this.props.handleSubmit(this.handleSubmit)} 
@@ -146,7 +148,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const connectedSignIn = connect(null, mapDispatchToProps)(connectedToReduxForm(withFirestore(SignIn)))
+const connectedSignIn = connect(null, mapDispatchToProps)(connectedToReduxForm(withFirestore(SignIn)));
 
 
 export default connectedSignIn;

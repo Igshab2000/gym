@@ -24,7 +24,11 @@ const buttonsName = [
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    //flexGrow: 1,
+    position: 'fixed',
+    minWidth: '830px',
+    width: '100%',
+    height: '60px',
+    zIndex: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -136,8 +140,7 @@ function Header(props) {
                     }}
                 >
                     <MenuItem onClick={() => goTo('/user-edit')}>Редактировать</MenuItem>
-                    <MenuItem onClick={() => goTo('/subscription')}>Мои абонементы</MenuItem>
-                    <MenuItem onClick={() => goTo('/my-timetable')}>Мое расписание</MenuItem>
+                    <MenuItem onClick={() => goTo('/my-subscription')}>Мои абонементы</MenuItem>
                     <MenuItem onClick={exit}>Выйти</MenuItem>
                 </Menu>
             </div>

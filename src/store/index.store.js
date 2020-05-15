@@ -1,5 +1,4 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import {composeWithDevTools} from "redux-devtools-extension";
 import { reducer as formReducer } from "redux-form";
 import  UserSaveReducer  from './reducer/user/user';
 import GymReducer from './reducer/gym/gym';

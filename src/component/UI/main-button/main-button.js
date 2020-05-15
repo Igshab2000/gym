@@ -10,8 +10,8 @@ const MainButton = props => {
         cls.push('main');
     } else if(props.type === 'reservation') {
         cls.push('reservation');
-    } else if(props.type === 'slider') {
-        cls.push('slid-but')
+    } else if(props.type === 'cancel') {
+        cls.push('cancel')
     }
 
     return (

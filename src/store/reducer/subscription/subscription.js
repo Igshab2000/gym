@@ -1,3 +1,5 @@
+import { SAVE_INFORMATION_SUBSCRIPTION, SELECTED_SUBSCRIPTION } from '../../action/subscription/subscription';
+
 const initState = {
     subscriotion: {
         type: 'div',
@@ -6,50 +8,70 @@ const initState = {
         items: [
             {
                 id: 0,
+                header: 'Пробный',
+                price: '0р'
+            },
+            {
+                id: 1,
                 header: '1 месяц',
                 price: '1000р'
             },
             {
-                id: 1,
+                id: 2,
                 header: '2 месяца',
                 price: '2000р'
             },
             {
-                id: 2,
+                id: 3,
                 header: '3 месяца',
                 price: '2800р'
             },
             {
-                id: 3,
+                id: 4,
                 header: '5 месяцев',
                 price: '4800р'
             },
             {
-                id: 4,
+                id: 5,
                 header: '6 месяцев',
                 price: '5500р'
             },
             {
-                id: 5,
+                id: 6,
                 header: '8 месяцев',
                 price: '7800р'
             },
             {
-                id: 6,
+                id: 7,
                 header: '10 месяцев',
                 price: '9800р'
             },
             {
-                id: 7,
+                id: 8,
                 header: '12 месяцев',
                 price: '11000р'
             },
         ]
-    }
+    },
+
+    selected: null,
+    information: [],
 }
 
 const SubscriotionReducer = (state = initState, action) => {
     switch(action.type) {
+        case SELECTED_SUBSCRIPTION:
+            return {
+                ...state,
+                selected: action.idSubscription
+            }
+
+        case SAVE_INFORMATION_SUBSCRIPTION:
+            return {
+                ...state,
+                information: action.arrayData
+            }
+
         default:
             return state;    
     }

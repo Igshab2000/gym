@@ -9,38 +9,38 @@ class Trainers extends Component {
         super(props)
 
         this.state = {
-            isShow: false
+            isShow: false,
+            item: null
         }
     }
 
     showInformationAboutTrainer = (item) => {
-        return (
-            <SpringModal
-                isCheck={this.state.isShow}
-            >
-                <div className="trainer-content">
-                    <div 
-                        style={{
-                            width: 300,
-                            height: 300,
-                            background: 'url('+item.src +')',
-                            backgroundSize: 'cover',
-                            marginLeft: 10,
-                            marginTop: 10
-                        }}
-                    />
-                    <div class='trainer-content__information'>
-                        <h2>{item.name}</h2>
-                        <h6>{item.information}</h6>
+        if(item !== null) {
+            return (
+                <SpringModal
+                    isCheck={this.state.isShow}
+                >
+                    <div className="trainer-content">
+                        <div 
+                            style={{
+                                width: 300,
+                                height: 300,
+                                marginRight: 20,
+                                backgroundImage: 'url(/'+item.src+')',
+                                backgroundSize: 'cover'
+                            }}
+                        />
+                        <div className='trainer-content__information'>
+                            <h2 className='trainer-content__information-header'>{item.name}</h2>
+                            <h6 className='trainer-content__information-header'>{item.information}</h6>
+                        </div>
                     </div>
-                </div>
-            </SpringModal>
-        )
+                </SpringModal>
+            )
+        }
     }
 
-    showPhotoTrainers = () => {
-        const { trainers } = this.props;
-        console.log(trainers);
+    showPhotoTrainers = (trainers) => {
         return trainers.items.map((item, index) => {
             return (
                 <div
@@ -49,13 +49,16 @@ class Trainers extends Component {
                     className='slider__content__item'
                     onClick={ () => {
                         this.setState({
-                            isShow: !this.state.isShow
-                        })
+                            isShow: !this.state.isShow,
+                            item
+                        });
                     }}
                     style={{
+                        marginTop: 10,
+                        marginLeft: 10,
                         width: 300,
                         height: 300,
-                        backgroundImage: 'url('+item.src +')',
+                        backgroundImage: 'url(/'+item.src+')',
                         backgroundSize: 'cover'
                     }}
                 />
@@ -64,12 +67,19 @@ class Trainers extends Component {
     }
 
     render() {
+        const { trainers } = this.props;
+        const { item } = this.state;
         return(
             <Layout>
-                <div className='trainers-container'>
+                <div className='trainers-container' onClick={() => {
+                    this.setState({
+                        isShow: !this.state.isShow,
+                    })
+                }}>
                     <h2>Тренерский состав</h2>
                     <div className='trainers-container__galary'>
-                        {this.showPhotoTrainers()}
+                        {this.showPhotoTrainers(trainers)}
+                        {this.showInformationAboutTrainer(item)}
                     </div>
                 </div>
             </Layout>

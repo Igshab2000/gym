@@ -19,12 +19,14 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-slick": "^0.26.1",
     "react-whirligig": "^6.6.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-form": "^8.3.5",
     "redux-form-input-masks": "^2.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "start": "react-scripts start",

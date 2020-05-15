@@ -1,5 +1,5 @@
-import React, { Component, Children } from 'react';
-import './signUp.scss';
+import React, { Component} from 'react';
+import './SignUp.scss';
 import Authorization from '../../hoc/Authorization/Authorization';
 import Input from '../../component/UI/input/input';
 import MainButton from '../../component/UI/main-button/main-button';
@@ -84,19 +84,22 @@ class SignUp extends Component {
             telephone: fields.telephoneField,
             login: fields.loginField,
             password: fields.passwordField,
-            subscriptions: []
+            subscriptions: [],
+            timeTable: []
         }
 
-        let userStorage = this.state.users.find(userStorege => {
+        const userStorage = this.state.users.find(userStorege => {
             if(user.login === userStorege.login || user.telephone === userStorege.login) {
                 return user;
             }
+
+            return undefined;
         });
 
         if(userStorage === undefined) {
             this.addUser(user);
             userSave(user);
-            history.push("/");
+            history.go(-2);
         } else {
             this.setState({
                 errorMessage: 'Этот пользователь уже существует!'
@@ -138,11 +141,11 @@ class SignUp extends Component {
         return(
             <Authorization>
                 <div className='container'>
-                    <div className='content'>
+                    <div className='container__content'>
                         <h2>Регистрация</h2>
                         <form 
                             onSubmit={this.props.handleSubmit(this.handleSubmit)} 
-                            className='form'
+                            className='container__content-form'
                         >
                             {this.state.formElements.map((element, index) => {
 

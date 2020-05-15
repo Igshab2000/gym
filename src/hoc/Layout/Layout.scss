@@ -6,7 +6,8 @@
     flex-direction: column;
     background: #dfffeb;
 
-    main {
+    &__main {
+        padding-top: 70px;
         display: flex;
         flex-direction: column;
         flex-grow: 1;

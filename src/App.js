@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
-import HomePage from './container/home-page/HomePage';
-import Subscription from './container/subscription/subscription';
-import Timetable from './container/timetable/timetable';
-import MyTimeTable from './container/MyTimeTable/MyTimeTable';
+import HomePage from './container/HomePage/HomePage';
+import MySubscription from './container/MySubscription/MySubscription';
+import Timetable from './container/Timetable/Timetable';
 import { Switch, Route } from 'react-router-dom';
-import SignIn from './container/signIn/signIn';
-import SignUp from './container/signUp/signUp';
+import SignIn from './container/SignIn/SignIn';
+import SignUp from './container/SignUp/SignUp';
 import { connect } from 'react-redux';
 import isEmpty from './utils/const/isEmpty';
 import UserEdit from './container/UserEdit/UserEdit';
 import GymGalary from './container/GymGalary/GymGalary';
-
+import Trainers from './container/Trainers/Trainers';
+import Subscription from './container/Subscription/Subscription';
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   available = () => {
     return (
@@ -24,6 +20,7 @@ class App extends Component {
         <Route path="/subscription" component={Subscription}/>
         <Route path="/gym-galary" component={GymGalary}/>
         <Route path="/timetable" component={Timetable}/>
+        <Route path="/trainers" component={Trainers}/>
         <Route path="/" component={HomePage}/>
       </Switch>
     )
@@ -34,8 +31,8 @@ class App extends Component {
     if(isEmpty(user)) {
       return (
         <Switch>
-          <Route path="/my-timetable" component={MyTimeTable}/>
           <Route path="/user-edit" component={UserEdit}/>
+          <Route path="/my-subscription" component={MySubscription}/>
           {this.available()}
           <Route path="/" component={HomePage}/>
         </Switch>

@@ -19,7 +19,6 @@ const Input = props => {
   };
 
   const InputField = props => {
-      console.log()
       return (
         <Field name={props.name} component={Input} {...props} />
       )

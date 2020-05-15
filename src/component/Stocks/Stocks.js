@@ -3,32 +3,18 @@ import MainButton from '../UI/main-button/main-button';
 import './Stocks.scss';
 import { connect } from 'react-redux';
 import isEmpty from '../../utils/const/isEmpty';
+import {selectedSubscription} from '../../store/action/subscription/subscription';
 import { withRouter } from 'react-router-dom';
-import save from '../../store/action/save/save';
-
 
 class Stock extends Component {
 
-    constructor(props) {
-        super(props)
-    }
-
-    toBook = () => {
-        const { history, id, user, userSave } = this.props;
-
+    toBook = id => {
+        const { user, selectedSubscription, history } = this.props;
         if(isEmpty(user)) {
-            if(this.checkSubscriptions(user, id)) {
-                user.subscriptions.push(id);
-            } else {
-                const index = user.subscriptions.indexOf(id);
-                user.subscriptions.splice(index, 1);
-            }
-
-            userSave(user);
+            selectedSubscription(id);
             history.push('/subscription');
-
         } else {
-           history.push('/sign-in');
+            history.push('/sign-in');
         }
     }
 
@@ -43,7 +29,7 @@ class Stock extends Component {
         return true;
     }
 
-    render() {
+    bigCard = () => {
         const { header, price, style, user, id } = this.props;
         return (
             <div className='stock' style={style ? style : null}>
@@ -60,13 +46,43 @@ class Stock extends Component {
                         styleCss={{
                             marginTop: '100px'
                         }}
-                        onClick={() => this.toBook()}
+                        onClick={() => this.toBook(id)}
                     >
                         {this.checkSubscriptions(user, id) ? 'Забронировать' : 'Отменить'}
                     </MainButton>
                 </div>
             </div>
         )
+    }
+
+    smallСard = () => {
+        const { header, price, background, id } = this.props;
+        return (
+            <div 
+                className='stock-small'
+                onClick={() => this.toBook(id)}
+                style={{
+                    backgroundColor: background
+                }}
+            >
+                <div className='stock-small__header'>{header}</div>
+                <div className='stock-small__price'>{price}</div>
+            </div>
+        )
+    }
+
+    render() {
+        const { type } = this.props;
+        if(type === 'small') {
+            return (
+                this.smallСard()
+            )
+        } else {
+            return (
+                this.bigCard()
+            )   
+        }
+        
     }
 }
 
@@ -78,9 +94,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        userSave: (user) => dispatch(save(user))
+        selectedSubscription: (id) => dispatch(selectedSubscription(id))
     }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Stock))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Stock));

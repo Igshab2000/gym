@@ -6,7 +6,7 @@
     font-size: 12px;
     color: white;
     outline: none;
-
+    cursor: pointer;
 }
 
 .main {
@@ -17,7 +17,8 @@
     background-color: yellow;
     color: black;
 }
-.slid-but {
-    background-color: #dee0d7;
-    color: black;
+
+.cancel {
+    background-color: #f72323;
+    color: white;
 }

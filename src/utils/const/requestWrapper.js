@@ -11,7 +11,6 @@ const requestWrapper = collectionName => {
             return data;
         })
         .catch(function(error) {
-            console.log("Error getting documents: ", error);
             return error;
         });    
 }

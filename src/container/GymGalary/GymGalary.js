@@ -3,6 +3,8 @@ import Pagination from '../../component/Pagination/Pagination';
 import Layout from '../../hoc/Layout/Layout';
 import requestWrapper from '../../utils/const/requestWrapper';
 import SetOfElements from '../../component/SetOfElements/SetOfElements';
+import BackDrop from '../../component/BackDrop/BackDrop';
+import isEmpty from '../../utils/const/isEmpty';
 import './GymGalary.scss';
 
 
@@ -40,21 +42,26 @@ class GymGalary extends Component {
         if(items) {
             currentPosts = items.slice(indexOfFirstPost, indexOfLastItems);
         } 
-        console.log(currentPosts);
         return (
             <Layout>
-                <div className='gym-galary'>
-                    <h1>Тренажерный зал</h1>
-                    <SetOfElements 
-                        arrayElements={currentPosts}
+                {isEmpty(currentPosts) ?
+                    <div className='gym-galary'>
+                        <h1>Тренажерный зал</h1>
+                        <SetOfElements 
+                            arrayElements={currentPosts}
+                        />
+                        <Pagination 
+                            postsPerPage={9}
+                            totalPosts={items.length}
+                            paginate={this.paginate}
+                            href='/gym-galary'
+                        />
+                    </div>
+                    :
+                    <BackDrop 
+                        open={isEmpty(currentPosts)}
                     />
-                    <Pagination 
-                        postsPerPage={9}
-                        totalPosts={items.length}
-                        paginate={this.paginate}
-                        href='/gym-galary'
-                    />
-                </div>
+                }
             </Layout>
         )
     }

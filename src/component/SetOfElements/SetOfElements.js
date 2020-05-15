@@ -18,14 +18,9 @@ const showItems = (arrayElements) => {
 
 const SetOfElements = props => {
     const {arrayElements} = props;
-    console.log(arrayElements);
     return (
         <div className='container-elements'>
-            {arrayElements === []  ?
-                null
-                :
-                showItems(arrayElements)
-            }
+            {showItems(arrayElements)}
         </div>
     )
 }
