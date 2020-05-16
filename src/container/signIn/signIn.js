@@ -48,7 +48,7 @@ class SignIn extends Component {
 
     
 
-    handleSubmit = (fields) => {
+    handleSubmit = fields => {
         const { history } = this.props;
         const userData = {
             login: fields.loginField,
@@ -62,8 +62,6 @@ class SignIn extends Component {
             ) {
                 return user;
             }
-
-            return {}
         });
 
         if(isEmpty(user)) {
@@ -99,8 +97,8 @@ class SignIn extends Component {
                                 return (
                                     <Input
                                         key={index}
-                                        name={element.name}
                                         type={element.type}
+                                        name={element.name}
                                         styleCss={this.state.style}
                                         placeholder={element.placeholder}
                                         validate={element.typeValidation ? element.typeValidation : null}

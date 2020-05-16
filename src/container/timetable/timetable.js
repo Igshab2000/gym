@@ -91,7 +91,7 @@ const checkCardTimeUser = (user, idCard) => {
 
 const addCardTime = (user, history, idCard) => {
     if(isEmpty(user)) {
-        const checkCard = user.timeTable.find(item => item.id === idCard);
+        const checkCard = user.timeTable.find(item => item === idCard);
 
         if(checkCard) {
             const index = user.timeTable.indexOf(checkCard);
