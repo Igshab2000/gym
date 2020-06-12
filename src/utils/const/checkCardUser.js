@@ -1,5 +1,11 @@
-const checkCardUser = (arrayData, indexCard) =>  {
-    const checkCard = arrayData.find(item => item === indexCard);
+const checkCardUser = (arrayData, indexCard, type) =>  {
+    let checkCard;
+    if(type === 'sub') {
+        checkCard = arrayData.find(item => item === indexCard);
+    } else if(type === 'time') {
+        checkCard = arrayData.find(item => item.idCard === indexCard);
+    }
+    
     if(checkCard) {
         return '#04d13b'
     } else {

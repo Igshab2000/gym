@@ -17,6 +17,7 @@ import SpringModal from '../../component/ModalWindow/ModalWindow';
 import ConfirmationForm from '../../component/ConfirmationForm/ConfirmationForm';
 import { useStyles } from './Subscription.const';
 import save from '../../store/action/save/save';
+import checkSubscriptionsUser from '../../utils/const/checkSubscriptionsUser';
 import './Subscription.scss';
 
 function SimpleTable(props) {
@@ -54,7 +55,7 @@ function SimpleTable(props) {
 const checkCardSubscriptionUser = (user, id) => {
     if(isEmpty(user)) {
         const subscriptions = user.subscriptions;
-        return checkCardUser(subscriptions, id);   
+        return checkCardUser(subscriptions, id, 'sub');   
     } 
 }
 
@@ -113,39 +114,37 @@ const showInformation = (information, saveInformation) => {
 
 class Subscription extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isCheckModal: false
+        }
+    }
+
     tobookSubscriptions = isCheck => {
-        const { selectedSubscription, selected, user, history, userSave } = this.props;
-
+        const { selectedSubscription, selected, user, userSave, history } = this.props;
         if(isCheck) {
-            if(this.checkSubscriptions(user, selected)) {
-                user.subscriptions.push(selected);
+            if(isEmpty(user)) {
+                const changeUser = checkSubscriptionsUser(user, selected);
+                userSave(changeUser);
+                selectedSubscription(null);
             } else {
-                const index = user.subscriptions.indexOf(selected);
-                user.subscriptions.splice(index, 1);
+                history.push('/sign-in');
             }
-
-            userSave(user);
-            selectedSubscription(null);
-            history.push('/my-subscription');
-
         } else {
             selectedSubscription(null);
         }
     }
 
-    checkSubscriptions = (user, id) => {
-        if(user !== {}) {
-           const subscription = user.subscriptions?.find(item => item === id);
-           if(subscription !== undefined) {
-               return false;
-           } 
-        }
-
-        return true;
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            isCheckModal: nextProps.selected
+        });
     }
 
     render() {
-        const { user, subscription, information, saveInformation } = this.props;
+        const { user, subscription, information, saveInformation, selected } = this.props;
         const items = subscription.items;
         return (
             <Layout>
@@ -163,7 +162,8 @@ class Subscription extends Component {
                         </div>
                     </div>
                     <SpringModal
-                        isCheck={this.props.selected !== null ?  true : false}
+                        isCheck={selected !== null && this.state.isCheckModal ?  true : false}
+                        close={this.tobookSubscriptions}
                     >
                         <ConfirmationForm
                             tobook={this.tobookSubscriptions}

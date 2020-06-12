@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Input from '../../component/UI/input/input';
+import Input from '../../component/UI/Input/Input';
 import Authorization from '../../hoc/Authorization/Authorization';
-import MainButton from '../../component/UI/main-button/main-button';
+import MainButton from '../../component/UI/MainButton/MainButton';
 import {Link} from 'react-router-dom';
 import { reduxForm } from "redux-form";
 import { formValidator } from '../../utils/validator';
@@ -12,7 +12,9 @@ import './SignIn.scss';
 import requestWrapper from '../../utils/const/requestWrapper';
 import ErrorMessage from '../../component/ErrorMessage/ErrorMessage';
 import isEmpty from '../../utils/const/isEmpty';
+import checkSubscriptionsUser from '../../utils/const/checkSubscriptionsUser';
 import { onlyEmail, passLength } from '../../utils/validator';
+import { selectedSubscription } from '../../store/action/subscription/subscription';
 
 class SignIn extends Component {
     constructor(props) {
@@ -49,7 +51,7 @@ class SignIn extends Component {
     
 
     handleSubmit = fields => {
-        const { history } = this.props;
+        const { history, userSave, selected, selectedSubscription } = this.props;
         const userData = {
             login: fields.loginField,
             password: fields.passwordField
@@ -62,10 +64,17 @@ class SignIn extends Component {
             ) {
                 return user;
             }
+            return undefined;
         });
 
         if(isEmpty(user)) {
-            this.props.userSave(user);
+            if(selected !== null) {
+                const changeUser = checkSubscriptionsUser(user, selected);
+                userSave(changeUser);
+                selectedSubscription(null);
+            } else {
+                userSave(user);
+            }
             history.goBack();
         } else {
             this.setState({
@@ -135,6 +144,12 @@ class SignIn extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        selected: state.subscription.selected
+    }
+}
+
 const connectedToReduxForm = reduxForm({
     form: 'loginForm',
     validate: formValidator,
@@ -142,11 +157,12 @@ const connectedToReduxForm = reduxForm({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userSave: (user) => dispatch(save(user))
+        userSave: (user) => dispatch(save(user)),
+        selectedSubscription: (id) => dispatch(selectedSubscription(id))
     }
 }
 
-const connectedSignIn = connect(null, mapDispatchToProps)(connectedToReduxForm(withFirestore(SignIn)));
+const connectedSignIn = connect(mapStateToProps, mapDispatchToProps)(connectedToReduxForm(withFirestore(SignIn)));
 
 
 export default connectedSignIn;

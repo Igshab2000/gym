@@ -1,5 +1,5 @@
 import React from 'react';
-import './main-button.scss';
+import './MainButton.scss';
 
 const MainButton = props => {
     const cls = [

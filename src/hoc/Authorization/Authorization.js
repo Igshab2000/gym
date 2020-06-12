@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import MainButton from '../../component/UI/main-button/main-button';
+import MainButton from '../../component/UI/MainButton/MainButton';
 import './Authorization.scss';
 
 class Authorization extends Component {

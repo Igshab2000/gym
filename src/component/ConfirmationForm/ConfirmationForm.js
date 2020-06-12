@@ -1,5 +1,5 @@
 import React from 'react';
-import MainButton from '../UI/main-button/main-button';
+import MainButton from '../UI/MainButton/MainButton';
 import './ConfirmationForm.scss';
 
 const ConfirmationForm = props => {

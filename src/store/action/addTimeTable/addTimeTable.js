@@ -14,7 +14,6 @@ export function addTimeTable() {
             dataTimeTable.forEach((data, index) => {
                 arrayData[index] = dataСonversion(data);
             });
-            
             dispatch(saveTimeTable(arrayData));
         });
     }

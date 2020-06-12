@@ -14,11 +14,18 @@ class Trainers extends Component {
         }
     }
 
+    closeModal = (isCheck) => {
+        this.setState({
+            isShow: isCheck
+        });
+    }
+
     showInformationAboutTrainer = (item) => {
         if(item !== null) {
             return (
                 <SpringModal
                     isCheck={this.state.isShow}
+                    close={this.closeModal}
                 >
                     <div className="trainer-content">
                         <div 
@@ -59,7 +66,8 @@ class Trainers extends Component {
                         width: 300,
                         height: 300,
                         backgroundImage: 'url(/'+item.src+')',
-                        backgroundSize: 'cover'
+                        backgroundSize: 'cover',
+                        cursor: 'pointer'
                     }}
                 />
             )

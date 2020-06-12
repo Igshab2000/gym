@@ -10,7 +10,7 @@ import Menu from '@material-ui/core/Menu';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {Link} from 'react-router-dom';
-import MainButton from '../UI/main-button/main-button';
+import MainButton from '../UI/MainButton/MainButton';
 import isEmpty from '../../utils/const/isEmpty';
 import save from '../../store/action/save/save';
 

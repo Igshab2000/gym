@@ -1,31 +1,26 @@
 import React, { Component } from 'react';
-import MainButton from '../UI/main-button/main-button';
+import MainButton from '../UI/MainButton/MainButton';
 import './Stocks.scss';
 import { connect } from 'react-redux';
-import isEmpty from '../../utils/const/isEmpty';
 import {selectedSubscription} from '../../store/action/subscription/subscription';
 import { withRouter } from 'react-router-dom';
 
 class Stock extends Component {
 
     toBook = id => {
-        const { user, selectedSubscription, history } = this.props;
-        if(isEmpty(user)) {
-            selectedSubscription(id);
-            history.push('/subscription');
-        } else {
-            history.push('/sign-in');
-        }
+        const { selectedSubscription, history } = this.props;
+        selectedSubscription(id);
+        const link = history.location.pathname;
+        history.push(link);
     }
 
     checkSubscriptions = (user, id) => {
         if(user !== {}) {
            const subscription = user.subscriptions?.find(item => item === id);
            if(subscription !== undefined) {
-               return false;
+                return false;
            } 
         }
-
         return true;
     }
 
@@ -48,7 +43,7 @@ class Stock extends Component {
                         }}
                         onClick={() => this.toBook(id)}
                     >
-                        {this.checkSubscriptions(user, id) ? 'Забронировать' : 'Отменить'}
+                        {this.checkSubscriptions(user, id) === true ? 'Забронировать' : 'Отменить'}
                     </MainButton>
                 </div>
             </div>

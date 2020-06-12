@@ -16,12 +16,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { fire } from '../../index';
 import checkCardUser from '../../utils/const/checkCardUser';
 import BackDrop from '../../component/BackDrop/BackDrop';
+import SpringModal from '../../component/ModalWindow/ModalWindow';
+import MainButton from '../../component/UI/MainButton/MainButton';
 import './Timetable.scss';
 
 
 const ShowTable = props => {
     const [open] = React.useState(true);
-    const { data, user, history} = props;
+    const { data, user, addCardTime } = props;
     const classes = useStyles();
     const classesBackDrop = useStylesBackDrop();
     
@@ -61,7 +63,7 @@ const ShowTable = props => {
                                                 time={cellItem.time}
                                                 trainer={cellItem.trainer}
                                                 color={cellItem.colorBorder}
-                                                add={() => addCardTime(user, history, cellItem.id)}
+                                                add={() => addCardTime(cellItem.id, indexRow)}
                                                 background={checkCardTimeUser(user, cellItem.id)}
                                             />
                                         </StyledTableCell>
@@ -85,36 +87,63 @@ const ShowTable = props => {
 const checkCardTimeUser = (user, idCard) => {
     if(isEmpty(user)) { 
         const timeTable = user.timeTable;
-        return checkCardUser(timeTable, idCard);
+        return checkCardUser(timeTable, idCard, 'time');
     }
 }
-
-const addCardTime = (user, history, idCard) => {
-    if(isEmpty(user)) {
-        const checkCard = user.timeTable.find(item => item === idCard);
-
-        if(checkCard) {
-            const index = user.timeTable.indexOf(checkCard);
-            user.timeTable.splice(index, 1);
-        } else {
-            user.timeTable.push(idCard);
-        }
-
-        fire.firestore().collection("users").doc(user.login).update({
-            timeTable: user.timeTable
-        });
-        
-        history.push('/timetable');
-    } else {
-        history.push('/sign-in');
-    }
-}
-
 
 class Timetable extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            errorMessage: 'В этот день занятие уже запланировано',
+            isCheckModal: false 
+        }
+    }
+
     componentDidMount() {
         this.props.addTimeTable();
+    }
+
+    addCardTime = (idCard, rowItem) => {
+        const { user, history } = this.props;
+        const cardTime = {
+            idCard,
+            rowItem
+        }
+
+        if(isEmpty(user)) {
+            const checkCard = user.timeTable.find(item => item.idCard === idCard);
+
+            if(checkCard) {
+                const index = user.timeTable.indexOf(checkCard);
+                user.timeTable.splice(index, 1);
+            } else {
+                const checkCardDay = user.timeTable.find(item => item.rowItem === rowItem);
+                if(checkCardDay) {
+                    this.setState({
+                        isCheckModal: true
+                    });
+                } else {
+                    user.timeTable.push(cardTime);
+                }
+            }
+    
+            fire.firestore().collection("users").doc(user.login).update({
+                timeTable: user.timeTable
+            });
+            
+            history.push('/timetable');
+        } else {
+            history.push('/sign-in');
+        }
+    }
+
+    closeModal = isCheck => {
+        this.setState({
+            isCheckModal: isCheck
+        })
     }
 
     render() {
@@ -130,6 +159,7 @@ class Timetable extends Component {
                                 data={dataTimeTable} 
                                 user={user}
                                 history={history}
+                                addCardTime={this.addCardTime}
                             /> 
                         )
                         :
@@ -138,7 +168,23 @@ class Timetable extends Component {
                                 open={isEmpty(dataTimeTable)}
                             />
                         )
-                    }       
+                    }  
+                        <SpringModal
+                            isCheck={this.state.isCheckModal}
+                            close={this.closeModal}
+                        >
+                            <div className='error-modal'>
+                                <h2>{this.state.errorMessage}</h2>
+                                <div className='error-modal__panel'>
+                                    <MainButton
+                                        type='main'
+                                        onClick={() => this.setState({
+                                            isCheckModal: false
+                                        })}
+                                    >Ок</MainButton>
+                                </div>
+                            </div>
+                        </SpringModal>    
                     </div>
                 </div>
             </Layout>

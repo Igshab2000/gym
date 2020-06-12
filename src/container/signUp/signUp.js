@@ -1,8 +1,8 @@
 import React, { Component} from 'react';
 import './SignUp.scss';
 import Authorization from '../../hoc/Authorization/Authorization';
-import Input from '../../component/UI/input/input';
-import MainButton from '../../component/UI/main-button/main-button';
+import Input from '../../component/UI/Input/Input';
+import MainButton from '../../component/UI/MainButton/MainButton';
 import { Link } from 'react-router-dom';
 import { reduxForm } from "redux-form";
 import { formValidator } from '../../utils/validator';
